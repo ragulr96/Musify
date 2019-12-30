@@ -28,10 +28,10 @@ $route['searchUser/loadPublicUserProfilePage/(:any)'] = 'userProfile/loadPublicU
 
 $route['connection'] = 'userConnection/getConnectionDetails';
 
-$route['contacts/contactCard'] = 'userContact/contactCard';
-$route['contacts/updateContactCard'] = 'userContact/updateContactCard';
+$route['contacts/contactCard'] = 'contactsApi/contact';
+$route['contacts/updateContactCard'] = 'contactsApi/contact';
 //$route['contacts/contactCard'] = 'userContact/getContacts';
-$route['userContact'] = 'userContact/loadContact';
+$route['userContact'] = 'ContactApi';
 
 
 $route['default_controller'] = 'pages/view';

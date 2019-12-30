@@ -59,17 +59,6 @@ class UserContactManager extends CI_Model
 
 	public function getSingleContact($contactId)
 	{
-//		// active record query to get a user's signle contact details
-//		$getUserContactDetailsQuery = $this->db->get_where('user_contact', array('contactId' => $contactId));
-//
-//		if ($getUserContactDetailsQuery->num_rows() > 0) {
-//
-//			// assign returned value to UserModel object
-//			$fetchContactDetails = $getUserContactDetailsQuery->custom_result_object('UserContactModel');
-//
-//			return $fetchContactDetails;
-//		}
-
 		$getUserContactDetailsQuery = $this->db->get_where('user_contact', array('contactId' => $contactId));
 
 		if ($getUserContactDetailsQuery->result()) {
@@ -84,26 +73,18 @@ class UserContactManager extends CI_Model
 
 	}
 
-	public function updateContactDetails($firstName, $lastName, $email, $telephoneNo, $userId, $contactId) {
-
-//		// get the userId from session
-//		$userId = $this->session->userData('userId');
-//
-//		// get contact details
-//		$fetchContactDetails = $this->getSingleContact($contactId);
-//
-//		$contactObj = $fetchContactDetails[0];
-//
-//		// update contact object
-//		$contactObj->updateContactData($firstName, $lastName, $email, $telephoneNo);
+	public function updateContactDetails($contactId, $firstName, $lastName, $email, $telephoneNo)
+	{
+		$data = array(
+			'firstName' => $firstName,
+			'lastName' => $lastName,
+			'email' => $email,
+			'telephoneNo' => $telephoneNo
+		);
 
 		// active record query to update profile details
 		$this->db->where('contactId', $contactId);
-		$this->db->set('firstName', $firstName);
-		$this->db->set('lastName', $lastName);
-		$this->db->set('email', $email);
-		$this->db->set('telephoneNo', $telephoneNo);
-		return $this->db->update('user_contact');
+		return $this->db->update('user_contact', $data);
 
 	}
 }

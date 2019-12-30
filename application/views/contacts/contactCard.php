@@ -152,7 +152,7 @@
 			$.ajax({
 
 				method: "POST",
-				url: "<?php echo site_url(); ?>/contacts/contactCard",
+				url: "<?php echo site_url(); ?>/contactApi/contact",
 				dataType: 'JSON',
 				data: {
 					firstName: firstName, lastName: lastName, email: email, telephoneNo: telephoneNo
@@ -160,18 +160,18 @@
 				success: function (data) {
 					$("#viewCon").load(location.href + "#viewCon");
 
+					// location.reload();
+
 					$("#addContactModel").hide();
 
 					// document.getElementById('viewCon').hidden = true;
 
 					// $('#viewCon').attr('src',data);
 
-
 					$("input#firstName").val("");
 					$("input#lastName").val("");
 					$("input#email").val("");
 					$("input#telephoneNo").val("");
-
 
 				}
 			});
@@ -182,18 +182,19 @@
 		$("#removeContact").click(function (event) {
 			event.preventDefault();
 
-			var contactId = $("input#contactId").val();
+			var contactId = $("#contactId").val();
 
 			$.ajax({
 
-				method: "GET",
-				url: "<?php echo site_url(); ?>/contacts/contactCard",
+				method: "DELETE",
+				url: "<?php echo site_url(); ?>/contactApi/contact/" + contactId,
 				dataType: 'JSON',
 				data: {
 					contactId: contactId
 				},
 				success: function (data) {
 					$("#viewCon").load(location.href + "#viewCon");
+					// location.reload();
 				}
 			});
 		});
@@ -208,7 +209,7 @@
 			$.ajax({
 
 				method: "GET",
-				url: "<?php echo site_url(); ?>/contacts/updateContactCard",
+				url: "<?php echo site_url(); ?>/contactApi/contact/" + contactId,
 				dataType: 'JSON',
 				data: {
 					contactId: contactId
@@ -236,7 +237,6 @@
 
 			var contactId = $("input#contactId").val();
 
-
 			var firstName = $("input#editFirstName").val();
 			var lastName = $("input#editLastName").val();
 			var email = $("input#editEmail").val();
@@ -244,11 +244,14 @@
 
 			$.ajax({
 
-				method: "POST",
-				url: "<?php echo site_url(); ?>/contacts/updateContactCard",
+				method: "PUT",
+				url: "<?php echo site_url(); ?>/contactApi/contact/" + contactId,
 				dataType: 'JSON',
 				data: {
-					contactId:contactId, firstName: firstName, lastName: lastName, email: email, telephoneNo: telephoneNo
+					firstName: firstName,
+					lastName: lastName,
+					email: email,
+					telephoneNo: telephoneNo
 				},
 				success: function (data) {
 					$("#viewCon").load(location.href + "#viewCon");
