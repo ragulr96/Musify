@@ -65,7 +65,5 @@ class GenreModel extends CI_Model
 	{
 		$this->userId = $userId;
 		$this->favoriteGenres = implode(',', $favoriteGenres);
-
-
 	}
 }

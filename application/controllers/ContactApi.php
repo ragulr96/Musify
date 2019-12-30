@@ -3,7 +3,6 @@
 require BASEPATH . 'libraries/chriskacerguis/Restserver/RestController.php';
 require BASEPATH . 'libraries/chriskacerguis/Restserver/Format.php';
 
-
 class ContactApi extends \chriskacerguis\RestServer\RestController
 {
 
@@ -112,10 +111,17 @@ class ContactApi extends \chriskacerguis\RestServer\RestController
 		$email = $this->put('email');
 		$telephoneNo = $this->put('telephoneNo');
 
+		$contactTags = $this->put('contactTags');
+
 		// load the UserContactManager model
 		$this->load->model('UserContactManager', 'userContactManager');
 
+		// update contact data
 		$contactData = $this->userContactManager->updateContactDetails($contactId, $firstName, $lastName, $email, $telephoneNo);
+
+		// update tag data
+		$tagData = $this->userContactManager->updateTagDetails($contactTags, $contactId);
+
 		echo json_encode($contactData);
 	}
 

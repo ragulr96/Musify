@@ -1,7 +1,7 @@
 <?php
 
 include_once 'UserContactModel.php';
-include_once 'UserContactModel.php';
+include_once 'TagModel.php';
 
 class UserContactManager extends CI_Model
 {
@@ -48,6 +48,24 @@ class UserContactManager extends CI_Model
 		// active record query to create a new contact
 		$addContactQuery = $this->db->insert('user_contact', $contact);
 
+		$this->db->where('email', $email);
+		$getContactDataQuery = $this->db->get('user_contact');
+
+		// check for returned value
+		if ($getContactDataQuery->num_rows() == 1) {
+
+			$contactId = $getContactDataQuery->row(0)->contactId;
+
+			// create new TagModel object
+			$tagObject = new TagModel();
+
+			// set contact tags to null on contact creation
+			$tagObject->setContactTagsOnReg($contactId, NULL);
+
+			// // active record query to insert tags
+			$addTagQuery = $this->db->insert('tag', $tagObject);
+		}
+
 		return $addContactQuery;
 	}
 
@@ -86,5 +104,36 @@ class UserContactManager extends CI_Model
 		$this->db->where('contactId', $contactId);
 		return $this->db->update('user_contact', $data);
 
+	}
+
+	public function getContactTagDetails($contactId)
+	{
+		// active record query to get tag detail
+		$getContactTagDetailsQuery = $this->db->get_where('tag', array('contactId' => $contactId));
+
+		// check for returned value
+		if ($getContactTagDetailsQuery->num_rows() > 0) {
+
+			// sets value to GenreModel
+			$fetchTagDetails = $getContactTagDetailsQuery->custom_result_object('TagModel');
+			print_r($fetchTagDetails);
+
+			return $fetchTagDetails;
+		}
+	}
+
+	public function updateTagDetails($contactTags, $contactId)
+	{
+		// get tag details
+		$fetchTagDetails = $this->getContactTagDetails($contactId);
+
+		$tagObj = $fetchTagDetails[0];
+
+		// update genre details
+		$tagObj->updateTagData($contactId, $contactTags);
+
+		// active record query to update genre details
+		$this->db->where('contactId', $contactId);
+		return $this->db->update('tag', $tagObj);
 	}
 }

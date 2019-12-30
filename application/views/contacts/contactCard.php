@@ -128,6 +128,17 @@
 								   placeholder="Telephone Number">
 						</div>
 
+						<div class="form-group">
+							<label>Contact Tags</label>
+							<select multiple="multiple" class="form-control" name="contactTags"
+									id="contactTags">
+								<option value="family">Family</option>
+								<option value="friend">Friend</option>
+								<option value="work">Work</option>
+								<option value="school">School</option>
+							</select>
+						</div>
+
 						<button type="submit" class="btn btn-primary btn-block" id="updateContact" name="updateContact">
 							Update Contact
 						</button>
@@ -241,6 +252,9 @@
 			var lastName = $("input#editLastName").val();
 			var email = $("input#editEmail").val();
 			var telephoneNo = $("input#editTelephoneNo").val();
+			// var contactTags = $("input#contactTags").val();
+
+			var contactTags = $('#contactTags').val();
 
 			$.ajax({
 
@@ -251,7 +265,8 @@
 					firstName: firstName,
 					lastName: lastName,
 					email: email,
-					telephoneNo: telephoneNo
+					telephoneNo: telephoneNo,
+					contactTags: contactTags
 				},
 				success: function (data) {
 					$("#viewCon").load(location.href + "#viewCon");
