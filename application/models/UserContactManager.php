@@ -72,7 +72,9 @@ class UserContactManager extends CI_Model
 	public function deleteContact($contactId)
 	{
 		// active record query to remove a contact card
-		$this->db->delete('user_contact', array('contactId' => $contactId));
+		$this->db->delete('tag', array('contactId' => $contactId)); // delete tag table row
+		$this->db->delete('user_contact', array('contactId' => $contactId));  // delete user_contact table row
+
 	}
 
 	public function getSingleContact($contactId)
