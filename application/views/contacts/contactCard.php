@@ -9,7 +9,7 @@
 					<?php if ($listOfContacts != NULL) : ?>
 						<div class="table-responsive">
 							<!--					<div id="viewCon">-->
-							<table class="table table-hover table-sm">
+							<table class="table table-hover table-sm contact-table">
 								<?php foreach ($listOfContacts as $contact) : ?>
 									<tr class="table-light">
 										<td>
@@ -25,19 +25,24 @@
 										<td>
 											<?php if ($this->session->userdata('userId') == $contact->getUserId()) : ?>
 
-												<input type="hidden" name="contactId" id="contactId"
+												<input type="hidden" name="contactId"
+													   id="<?php echo $contact->getContactId(); ?>"
 													   value="<?php echo $contact->getContactId(); ?>">
 
-												<button type="submit" class="editContact-btn" id="editContact"><i
+												<button type="submit" class="editContact-btn"
+														id="<?php echo $contact->getContactId() ?>"><i
 														class="fa fa-edit fa-2x"></i></button>
 											<?php endif; ?>
 										</td>
 										<td>
 											<?php if ($this->session->userdata('userId') == $contact->getUserId()) : ?>
 
-												<input type="hidden" name="contactId" id="contactId"
+												<input type="hidden" name="contactId"
+													   id="<?php echo $contact->getContactId(); ?>"
 													   value="<?php echo $contact->getContactId(); ?>">
-												<button type="submit" class="deleteContact-btn" id="removeContact"><i
+
+												<button type="submit" class="deleteContact-btn"
+														id="<?php echo $contact->getContactId() ?>"><i
 														class="fa fa-trash fa-2x"></i></button>
 											<?php endif; ?>
 										</td>
@@ -126,6 +131,7 @@
 						<div class="form-group">
 							<input type="text" class="form-control" name="editTelephoneNo" id="editTelephoneNo"
 								   placeholder="Telephone Number">
+							<input type="hidden" class="form-control" name="editContactId" id="editContactId">
 						</div>
 
 						<div class="form-group">
@@ -162,97 +168,107 @@
 
 			$.ajax({
 
-				method: "POST",
 				url: "<?php echo site_url(); ?>/contactApi/contact",
-				dataType: 'JSON',
+				method: "POST",
+				dataType: "json",
 				data: {
 					firstName: firstName, lastName: lastName, email: email, telephoneNo: telephoneNo
-				},
-				success: function (data) {
-					$("#viewCon").load(location.href + "#viewCon");
-
-					// location.reload();
-
-					$("#addContactModel").hide();
-
-					// document.getElementById('viewCon').hidden = true;
-
-					// $('#viewCon').attr('src',data);
-
-					$("input#firstName").val("");
-					$("input#lastName").val("");
-					$("input#email").val("");
-					$("input#telephoneNo").val("");
-
 				}
+
+			}).done(function (data) {
+
+				// $('#contact-table tr').remove(); // clear table for new result
+				// var contacts = data;
+				// var i;
+				// for (i = 0; i < contacts.length; i++) {
+				// 	contact = contacts[i];
+				// 	var tr = "<tr class=\"table-light\"><td>contact->firstName</td></tr>";
+				// 	$('#contact-table').append(tr);
+				// }
+
+				$("#viewCon").load(location.href + "#viewCon");
+
+				$("#addContactModel").hide();
+
+				$("input#firstName").val("");
+				$("input#lastName").val("");
+				$("input#email").val("");
+				$("input#telephoneNo").val("");
 			});
 		});
 	});
 
+
 	$(document).ready(function () {
-		$("#removeContact").click(function (event) {
-			event.preventDefault();
+		var buttons = document.getElementsByClassName('deleteContact-btn');
 
-			var contactId = $("#contactId").val();
+		for (var i in Object.keys(buttons)) {
+			buttons[i].onclick = function (event) {
+				event.preventDefault();
 
-			$.ajax({
+				var contactId = this.id;
 
-				method: "DELETE",
-				url: "<?php echo site_url(); ?>/contactApi/contact/" + contactId,
-				dataType: 'JSON',
-				data: {
-					contactId: contactId
-				},
-				success: function (data) {
-					$("#viewCon").load(location.href + "#viewCon");
-					// location.reload();
-				}
-			});
-		});
+				$.ajax({
+
+					method: "DELETE",
+					url: "<?php echo site_url(); ?>/contactApi/contact/" + contactId,
+					dataType: 'JSON',
+					data: {
+						contactId: contactId
+					},
+					success: function (data) {
+						$("#viewCon").load(location.href + "#viewCon");
+					}
+				});
+			};
+		}
 	});
 
 	$(document).ready(function () {
-		$("#editContact").click(function (event) {
-			event.preventDefault();
+		var buttons = document.getElementsByClassName('editContact-btn');
 
-			var contactId = $("input#contactId").val();
+		for (var i in Object.keys(buttons)) {
+			buttons[i].onclick = function (event) {
+				event.preventDefault();
 
-			$.ajax({
+				var contactId = this.id;
+				$("input#editContactId").val(this.id);
 
-				method: "GET",
-				url: "<?php echo site_url(); ?>/contactApi/contact/" + contactId,
-				dataType: 'JSON',
-				data: {
-					contactId: contactId
-				},
-				success: function (data) {
+				$.ajax({
 
-					$.each(data, function (contactId, firstName, lastName, email, telephoneNo, displayPictureUrl) {
+					method: "GET",
+					url: "<?php echo site_url(); ?>/contactApi/contact/" + contactId,
+					dataType: 'JSON',
+					data: {
+						contactId: contactId
+					},
+					success: function (data) {
 
-						$("#editContactModel").show();
-						$("#addContactModel").hide();
+						$.each(data, function (contactId, firstName, lastName, email, telephoneNo, displayPictureUrl) {
 
-						$("input#editFirstName").val(firstName[1]);
-						$("input#editLastName").val(firstName[2]);
-						$("input#editEmail").val(firstName[3]);
-						$("input#editTelephoneNo").val(firstName[4]);
-					});
-				}
-			});
-		});
+							$("#editContactModel").show();
+							$("#addContactModel").hide();
+
+							$("input#editFirstName").val(firstName[1]);
+							$("input#editLastName").val(firstName[2]);
+							$("input#editEmail").val(firstName[3]);
+							$("input#editTelephoneNo").val(firstName[4]);
+						});
+					}
+				});
+			};
+		}
 	});
 
 	$(document).ready(function () {
 		$("#updateContact").click(function (event) {
 			event.preventDefault();
 
-			var contactId = $("input#contactId").val();
-
+			var contactId = $("input#editContactId").val();
 			var firstName = $("input#editFirstName").val();
 			var lastName = $("input#editLastName").val();
 			var email = $("input#editEmail").val();
 			var telephoneNo = $("input#editTelephoneNo").val();
-			// var contactTags = $("input#contactTags").val();
 
 			var contactTags = $('#contactTags').val();
 
