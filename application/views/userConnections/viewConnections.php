@@ -6,33 +6,47 @@
 			</div>
 			<div class="modal-body">
 
-				<?php if ($listOfFollowers != NULL AND $listOfFriends != NULL) : ?>
+				<?php if ($listOfFollowers != NULL && $listOfFriends != NULL) : ?>
+
+					<?php
+					function compareFollowerArray($aObj, $bObj)
+					{
+						if ($aObj->getId() === $bObj->getId()) {
+							return 0;
+						}
+						return ($aObj->getId() > $bObj->getId()) ? 1 : -1;
+					}
+
+					$a1 = $listOfFollowers;
+					$a2 = $listOfFriends;
+
+					$listOfOnlyFollowers = array_udiff($a1, $a2, "compareFollowerArray");
+					?>
 					<div class="table-responsive">
 						<table class="table table-hover table-sm">
 							<tbody>
 							<th>
-								<!--								Followers --><?php //echo '(' . (count((array)$listOfFollowers)) . ')' ?>
-								Followers
+								Followers <?php echo '(' . (count((array)$listOfOnlyFollowers)) . ')' ?>
 							</th>
 							<th></th>
-							<?php foreach ($listOfFollowers as $follower) : ?>
-								<?php if (in_array($follower, $listOfFriends)) : ?>
-									<tr class="table-light">
-										<td>
-											<h6 style="text-align: center;">You don't have any followers.</h6>
-										</td>
-									</tr>
-								<?php else: ?>
-									<tr class="table-light">
-										<td>
-											<img class="connectionDisplayPicture" style="height: 50px; width: 50px;"
-												 src="<?php echo $follower->getDisplayPictureUrl() ?>"/>
-											<a href="searchUser/loadPublicUserProfilePage/<?php echo $follower->getId(); ?>"><?php echo $follower->getFirstName() . ' ' . $follower->getLastName(); ?>
-											</a>
-										</td>
-									</tr>
-								<?php endif; ?>
+							<?php if (count((array)$listOfOnlyFollowers) > 0) : ?>
+							<?php foreach ($listOfOnlyFollowers as $follower) : ?>
+								<tr class="table-light">
+									<td>
+										<img class="connectionDisplayPicture" style="height: 50px; width: 50px;"
+											 src="<?php echo $follower->getDisplayPictureUrl() ?>"/>
+										<a href="searchUser/loadPublicUserProfilePage/<?php echo $follower->getId(); ?>"><?php echo $follower->getFirstName() . ' ' . $follower->getLastName(); ?>
+										</a>
+									</td>
+								</tr>
 							<?php endforeach; ?>
+							<?php else : ?>
+								<tr class="table-light">
+									<td>
+										<h6 style="text-align: center;">You don't have any users..</h6>
+									</td>
+								</tr>
+							<?php endif ?>
 							</tbody>
 						</table>
 					</div>
@@ -42,8 +56,7 @@
 						<table class="table table-hover table-sm">
 							<tbody>
 							<th>
-								<!--								Followers --><?php //echo '(' . (count((array)$listOfFollowers)) . ')' ?>
-								Followers
+								Followers <?php echo '(' . (count((array)$listOfFollowers)) . ')' ?>
 							</th>
 							<th></th>
 							<?php foreach ($listOfFollowers as $follower) : ?>
@@ -76,23 +89,31 @@
 					</div>
 				<?php endif; ?>
 
-				<?php if ($listOfFollowee != NULL AND $listOfFriends != NULL) : ?>
+				<?php if ($listOfFollowee != NULL && $listOfFriends != NULL) : ?>
+
+					<?php
+					function compareFolloweeArray($aObj, $bObj)
+					{
+						if ($aObj->getId() === $bObj->getId()) {
+							return 0;
+						}
+						return ($aObj->getId() > $bObj->getId()) ? 1 : -1;
+					}
+
+					$a1 = $listOfFollowee;
+					$a2 = $listOfFriends;
+
+					$listOfOnlyFolloweee = array_udiff($a1, $a2, "compareFolloweeArray");
+					?>
 					<div class="table-responsive">
 						<table class="table table-hover table-sm">
 							<tbody>
 							<th>
-								<!--								Following --><?php //echo '(' . (count((array)$listOfFollowee)) . ')' ?>
-								Following
+								Following <?php echo '(' . (count((array)$listOfOnlyFolloweee)) . ')' ?>
 							</th>
 							<th></th>
-							<?php foreach ($listOfFollowee as $followee) : ?>
-								<?php if (in_array($followee, $listOfFriends)) : ?>
-									<tr class="table-light">
-										<td>
-											<h6 style="text-align: center;">You are not following any users.</h6>
-										</td>
-									</tr>
-								<?php else : ?>
+							<?php if (count((array)$listOfOnlyFolloweee) > 0) : ?>
+								<?php foreach ($listOfOnlyFolloweee as $followee) : ?>
 									<tr class="table-light">
 										<td>
 											<img class="connectionDisplayPicture" style="height: 50px; width: 50px;"
@@ -101,19 +122,24 @@
 											</a>
 										</td>
 									</tr>
-								<?php endif ?>
-							<?php endforeach; ?>
+								<?php endforeach; ?>
+							<?php else : ?>
+								<tr class="table-light">
+									<td>
+										<h6 style="text-align: center;">You are not following any users..</h6>
+									</td>
+								</tr>
+							<?php endif ?>
 							</tbody>
 						</table>
 					</div>
 					<br>
-				<?php elseif ($listOfFollowee != NULL) : ?>
+				<?php elseif ($listOfFollowee != NULL): ?>
 					<div class="table-responsive">
 						<table class="table table-hover table-sm">
 							<tbody>
 							<th>
-								<!--								Following --><?php //echo '(' . (count((array)$listOfFollowee)) . ')' ?>
-								Following
+								Following <?php echo '(' . (count((array)$listOfFollowee)) . ')' ?>
 							</th>
 							<th></th>
 							<?php foreach ($listOfFollowee as $followee) : ?>
@@ -138,7 +164,7 @@
 							<th></th>
 							<tr class="table-light">
 								<td>
-									<h6 style="text-align: center;">You are not following any users.</h6>
+									<h6 style="text-align: center;">You are not following any users..</h6>
 								</td>
 							</tr>
 							</tbody>
@@ -151,8 +177,7 @@
 						<table class="table table-hover table-sm">
 							<tbody>
 							<th>
-								<!--								Friends --><?php //echo '(' . (count((array)$listOfFriends)) . ')' ?>
-								Friends
+								Friends <?php echo '(' . (count((array)$listOfFriends)) . ')' ?>
 							</th>
 							<th></th>
 							<?php foreach ($listOfFriends as $friend) : ?>
