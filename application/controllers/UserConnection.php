@@ -10,7 +10,7 @@ class UserConnection extends CI_Controller
 	{
 		// checks if a user is logged in
 		if (!$this->session->userdata('loginStatus')) {
-			$this->session->set_flashdata('login_required','Please Login first!');
+			$this->session->set_flashdata('login_required', 'Please Login first!');
 			redirect('users/signin');
 		}
 
@@ -34,7 +34,7 @@ class UserConnection extends CI_Controller
 	{
 		// checks if a user is logged in
 		if (!$this->session->userdata('loginStatus')) {
-			$this->session->set_flashdata('login_required','Please Login first!');
+			$this->session->set_flashdata('login_required', 'Please Login first!');
 			redirect('users/signin');
 		}
 
@@ -58,7 +58,7 @@ class UserConnection extends CI_Controller
 	{
 		// checks if a user is logged in
 		if (!$this->session->userdata('loginStatus')) {
-			$this->session->set_flashdata('login_required','Please Login first!');
+			$this->session->set_flashdata('login_required', 'Please Login first!');
 			redirect('users/signin');
 		}
 
@@ -82,7 +82,7 @@ class UserConnection extends CI_Controller
 	{
 		// checks if a user is logged in
 		if (!$this->session->userdata('loginStatus')) {
-			$this->session->set_flashdata('login_required','Please Login first!');
+			$this->session->set_flashdata('login_required', 'Please Login first!');
 			redirect('users/signin');
 		}
 
@@ -91,10 +91,11 @@ class UserConnection extends CI_Controller
 		$getUserFolloweeResult = $this->getUserFollowee();
 		$getUserFriendsResult = $this->getUserFriends();
 
+
 		$bagOfDataVal = array(
 			'listOfFollowers' => $getUserFollowersResult,
 			'listOfFollowee' => $getUserFolloweeResult,
-			'listOfFriends' =>$getUserFriendsResult
+			'listOfFriends' => $getUserFriendsResult
 		);
 
 		// load the views
@@ -102,4 +103,5 @@ class UserConnection extends CI_Controller
 		$this->load->view('userConnections/viewConnections', $bagOfDataVal);
 		$this->load->view('templates/footer');
 	}
+
 }

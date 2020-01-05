@@ -6,6 +6,30 @@
 					<h3>Contacts</h3>
 				</div>
 				<div class="modal-body">
+					<?php echo form_open('') ?>
+					<div class="form-group searchContact">
+						<label for="exampleSelect1">Search Contact List</label>
+
+						<select class="form-control" id="searchUser" name="searchUser" style="width: 330px;"
+								name="searchContactByTag" id="searchContactByTag">
+							<option value="" selected disabled>Search contact by tag</option>
+							<option value="family">Family</option>
+							<option value="friend">Friend</option>
+							<option value="work">Work</option>
+							<option value="school">School</option>
+						</select>
+
+						<input type="text" class="form-control" name="searchContactByName" id="searchContactByName"
+							   placeholder="Search Contact by Last name"
+							   style="width: 330px; margin-top: -46px; margin-left: 345px;">
+
+						<button class="btn searchUser-btn"><i class="fa fa-search fa-2x"></i></button>
+						<hr>
+
+					</div>
+					<?php echo form_close(); ?>
+
+
 					<?php if ($listOfContacts != NULL) : ?>
 						<div class="table-responsive">
 							<!--					<div id="viewCon">-->
@@ -145,6 +169,11 @@
 							</select>
 						</div>
 
+						<div class="form-group">
+							<input type="text" class="form-control" name="editDisplayPictureUrl" id="editDisplayPictureUrl"
+								   placeholder="Display Picture Url">
+						</div>
+
 						<button type="submit" class="btn btn-primary btn-block" id="updateContact" name="updateContact">
 							Update Contact
 						</button>
@@ -253,6 +282,8 @@
 							$("input#editLastName").val(firstName[2]);
 							$("input#editEmail").val(firstName[3]);
 							$("input#editTelephoneNo").val(firstName[4]);
+							$("input#editDisplayPictureUrl").val(firstName[5]);
+
 						});
 					}
 				});
@@ -304,4 +335,5 @@
 
 		});
 	});
+
 </script>

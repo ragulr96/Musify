@@ -14,12 +14,13 @@ class UserContactManager extends CI_Model
 		$this->load->database();
 	}
 
-	public function updateContactData($firstName, $lastName, $email, $telephoneNo, $userId)
+	public function updateContactData($firstName, $lastName, $email, $telephoneNo, $displayPictureUrl, $userId)
 	{
 		$this->firstName = $firstName;
 		$this->lastName = $lastName;
 		$this->email = $email;
 		$this->telephoneNo = $telephoneNo;
+		$this->displayPictureUrl = $displayPictureUrl;
 		$this->userId = $userId;
 	}
 
@@ -37,13 +38,13 @@ class UserContactManager extends CI_Model
 		}
 	}
 
-	public function addContactDetails($firstName, $lastName, $email, $telephoneNo, $userId)
+	public function addContactDetails($firstName, $lastName, $email, $telephoneNo, $displayPictureUrl, $userId)
 	{
 		// create new UserContact object
 		$contact = new UserContactManager();
 
 		// update contact object
-		$contact->updateContactData($firstName, $lastName, $email, $telephoneNo, $userId);
+		$contact->updateContactData($firstName, $lastName, $email, $telephoneNo, $displayPictureUrl, $userId);
 
 		// active record query to create a new contact
 		$addContactQuery = $this->db->insert('user_contact', $contact);
@@ -93,13 +94,88 @@ class UserContactManager extends CI_Model
 
 	}
 
-	public function updateContactDetails($contactId, $firstName, $lastName, $email, $telephoneNo)
+	public function getContactDetailsByTag($tag)
+	{
+
+		// active record query to get contact and tag data
+		$this->db->select('user_contact.contactId, user_contact.userId, user_contact.firstName, user_contact.lastName, user_contact.email, user_contact.telephoneNo, user_contact.displayPictureUrl, tag.contactId, tag.contactTags');
+		$this->db->from('user_contact');
+
+		// join tag and user_contact table
+		$this->db->join('tag', 'tag.contactId = user_contact.contactId');
+
+		// get matching results from selected tag
+		$this->db->like('tag.contactTags', $tag);
+
+		$contactTagDataQuery = $this->db->get();
+
+		if ($contactTagDataQuery->num_rows() > 0) {
+
+			// assign returned value to UserModel object
+			$contactTagData = $contactTagDataQuery->custom_result_object('UserContactModel');
+
+			return $contactTagData;
+		}
+	}
+
+	public function getContactDetailsByLastName($lastName)
+	{
+		$arr = array();
+		// active record query to get contact and tag data
+		$this->db->select('user_contact.contactId, user_contact.userId, user_contact.firstName, user_contact.lastName, user_contact.email, user_contact.telephoneNo, user_contact.displayPictureUrl, tag.contactId, tag.contactTags');
+		$this->db->from('user_contact');
+
+		// join tag and user_contact table
+		$this->db->join('tag', 'tag.contactId = user_contact.contactId');
+
+		// get matching results from selected lastName
+		$this->db->where('user_contact.lastName', $lastName);
+
+		$contactLastNameDataQuery = $this->db->get();
+
+		if ($contactLastNameDataQuery->num_rows() > 0) {
+
+			// assign returned value to UserModel object
+			$contactLastNameData = $contactLastNameDataQuery->custom_result_object('UserContactModel');
+
+			return $contactLastNameData;
+		}
+	}
+
+	public function getContactDetailsByTagNLastName($tag, $lastName)
+	{
+
+		// active record query to get contact and tag data
+		$this->db->select('user_contact.contactId, user_contact.userId, user_contact.firstName, user_contact.lastName, user_contact.email, user_contact.telephoneNo, user_contact.displayPictureUrl, tag.contactId, tag.contactTags');
+		$this->db->from('user_contact');
+
+		// join tag and user_contact table
+		$this->db->join('tag', 'tag.contactId = user_contact.contactId');
+
+		// get matching results from selected tag
+		$this->db->where('user_contact.lastName', $lastName);
+
+		$this->db->like('tag.contactTags', $tag);
+
+		$contactTagNLastNameDataQuery = $this->db->get();
+
+		if ($contactTagNLastNameDataQuery->num_rows() > 0) {
+
+			// assign returned value to UserModel object
+			$contactTagNLastNameData = $contactTagNLastNameDataQuery->custom_result_object('UserContactModel');
+
+			return $contactTagNLastNameData;
+		}
+	}
+
+	public function updateContactDetails($contactId, $firstName, $lastName, $email, $telephoneNo, $displayPictureUrl)
 	{
 		$data = array(
 			'firstName' => $firstName,
 			'lastName' => $lastName,
 			'email' => $email,
-			'telephoneNo' => $telephoneNo
+			'telephoneNo' => $telephoneNo,
+			'displayPictureUrl' => $displayPictureUrl
 		);
 
 		// active record query to update profile details

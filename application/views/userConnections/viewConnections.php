@@ -43,7 +43,7 @@
 							<?php else : ?>
 								<tr class="table-light">
 									<td>
-										<h6 style="text-align: center;">You don't have any users..</h6>
+										<h6 style="text-align: center;">You don't have any users.</h6>
 									</td>
 								</tr>
 							<?php endif ?>
@@ -126,7 +126,7 @@
 							<?php else : ?>
 								<tr class="table-light">
 									<td>
-										<h6 style="text-align: center;">You are not following any users..</h6>
+										<h6 style="text-align: center;">You are not following any users.</h6>
 									</td>
 								</tr>
 							<?php endif ?>
@@ -164,7 +164,7 @@
 							<th></th>
 							<tr class="table-light">
 								<td>
-									<h6 style="text-align: center;">You are not following any users..</h6>
+									<h6 style="text-align: center;">You are not following any users.</h6>
 								</td>
 							</tr>
 							</tbody>

@@ -5,8 +5,10 @@
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/generic.css">
 	<link rel="icon" href="<?php echo base_url(); ?>assets/images/favicon.png">
 	<script src="https://use.fontawesome.com/7d1e8c9e66.js"></script>
-<!--	<script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>-->
+	<!--	<script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
 </head>
 <body>
 
@@ -17,7 +19,7 @@
 				<div>
 					<img src="<?php echo base_url(); ?>assets/images/Logo.png" class="app-logo">
 				</div>
-			<?endif;?>
+			<? endif; ?>
 		</ul>
 		<ul class="navbar-nav mr-auto">
 			<?php if ($this->session->userdata('loginStatus')) : ?>
@@ -58,55 +60,55 @@
 </nav>
 
 <div class="container">
-<!--	Set alert messages-->
-	<?php if($this->session->flashdata('login_passed')): ?>
-		<?php echo '<p class="alert alert-success">'.$this->session->flashdata('login_passed').'</p>' ?>
-	<? endif;?>
+	<!--	Set alert messages-->
+	<?php if ($this->session->flashdata('login_passed')): ?>
+		<?php echo '<p class="alert alert-success">' . $this->session->flashdata('login_passed') . '</p>' ?>
+	<? endif; ?>
 
-	<?php if($this->session->flashdata('login_failed')): ?>
-		<?php echo '<p class="alert alert-danger">'.$this->session->flashdata('login_failed').'</p>' ?>
-	<? endif;?>
+	<?php if ($this->session->flashdata('login_failed')): ?>
+		<?php echo '<p class="alert alert-danger">' . $this->session->flashdata('login_failed') . '</p>' ?>
+	<? endif; ?>
 
-	<?php if($this->session->flashdata('signup_passed')): ?>
-		<?php echo '<p class="alert alert-success">'.$this->session->flashdata('signup_passed').'</p>' ?>
-	<? endif;?>
+	<?php if ($this->session->flashdata('signup_passed')): ?>
+		<?php echo '<p class="alert alert-success">' . $this->session->flashdata('signup_passed') . '</p>' ?>
+	<? endif; ?>
 
-	<?php if($this->session->flashdata('logout_passed')): ?>
-		<?php echo '<p class="alert alert-success">'.$this->session->flashdata('logout_passed').'</p>' ?>
-	<? endif;?>
+	<?php if ($this->session->flashdata('logout_passed')): ?>
+		<?php echo '<p class="alert alert-success">' . $this->session->flashdata('logout_passed') . '</p>' ?>
+	<? endif; ?>
 
-	<?php if($this->session->flashdata('updatePost_passed')): ?>
-		<?php echo '<p class="alert alert-success">'.$this->session->flashdata('updatePost_passed').'</p>' ?>
-	<? endif;?>
+	<?php if ($this->session->flashdata('updatePost_passed')): ?>
+		<?php echo '<p class="alert alert-success">' . $this->session->flashdata('updatePost_passed') . '</p>' ?>
+	<? endif; ?>
 
-	<?php if($this->session->flashdata('removePost_passed')): ?>
-		<?php echo '<p class="alert alert-danger">'.$this->session->flashdata('removePost_passed').'</p>' ?>
-	<? endif;?>
+	<?php if ($this->session->flashdata('removePost_passed')): ?>
+		<?php echo '<p class="alert alert-danger">' . $this->session->flashdata('removePost_passed') . '</p>' ?>
+	<? endif; ?>
 
-	<?php if($this->session->flashdata('addPost_passed')): ?>
-		<?php echo '<p class="alert alert-success">'.$this->session->flashdata('addPost_passed').'</p>' ?>
-	<? endif;?>
+	<?php if ($this->session->flashdata('addPost_passed')): ?>
+		<?php echo '<p class="alert alert-success">' . $this->session->flashdata('addPost_passed') . '</p>' ?>
+	<? endif; ?>
 
-	<?php if($this->session->flashdata('updateProfile_passed')): ?>
-		<?php echo '<p class="alert alert-success">'.$this->session->flashdata('updateProfile_passed').'</p>' ?>
-	<? endif;?>
+	<?php if ($this->session->flashdata('updateProfile_passed')): ?>
+		<?php echo '<p class="alert alert-success">' . $this->session->flashdata('updateProfile_passed') . '</p>' ?>
+	<? endif; ?>
 
-	<?php if($this->session->flashdata('signIn_failed')): ?>
-		<?php echo '<p class="alert alert-danger">'.$this->session->flashdata('signIn_failed').'</p>' ?>
-	<? endif;?>
+	<?php if ($this->session->flashdata('signIn_failed')): ?>
+		<?php echo '<p class="alert alert-danger">' . $this->session->flashdata('signIn_failed') . '</p>' ?>
+	<? endif; ?>
 
-	<?php if($this->session->flashdata('login_required')): ?>
-		<?php echo '<p class="alert alert-danger">'.$this->session->flashdata('login_required').'</p>' ?>
-	<? endif;?>
+	<?php if ($this->session->flashdata('login_required')): ?>
+		<?php echo '<p class="alert alert-danger">' . $this->session->flashdata('login_required') . '</p>' ?>
+	<? endif; ?>
 
-	<?php if($this->session->flashdata('postData_required')): ?>
-		<?php echo '<p class="alert alert-danger">'.$this->session->flashdata('postData_required').'</p>' ?>
-	<? endif;?>
+	<?php if ($this->session->flashdata('postData_required')): ?>
+		<?php echo '<p class="alert alert-danger">' . $this->session->flashdata('postData_required') . '</p>' ?>
+	<? endif; ?>
 
-	<?php if($this->session->flashdata('unfollow_passed')): ?>
-		<?php echo '<p class="alert alert-danger">'.$this->session->flashdata('unfollow_passed').'</p>' ?>
-	<? endif;?>
+	<?php if ($this->session->flashdata('unfollow_passed')): ?>
+		<?php echo '<p class="alert alert-danger">' . $this->session->flashdata('unfollow_passed') . '</p>' ?>
+	<? endif; ?>
 
-	<?php if($this->session->flashdata('follow_passed')): ?>
-		<?php echo '<p class="alert alert-success">'.$this->session->flashdata('follow_passed').'</p>' ?>
-	<? endif;?>
+	<?php if ($this->session->flashdata('follow_passed')): ?>
+		<?php echo '<p class="alert alert-success">' . $this->session->flashdata('follow_passed') . '</p>' ?>
+	<? endif; ?>
