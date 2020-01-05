@@ -129,7 +129,7 @@ class UserContactManager extends CI_Model
 		$this->db->join('tag', 'tag.contactId = user_contact.contactId');
 
 		// get matching results from selected lastName
-		$this->db->where('user_contact.lastName', $lastName);
+		$this->db->like('user_contact.lastName', $lastName);
 
 		$contactLastNameDataQuery = $this->db->get();
 
@@ -153,7 +153,7 @@ class UserContactManager extends CI_Model
 		$this->db->join('tag', 'tag.contactId = user_contact.contactId');
 
 		// get matching results from selected tag
-		$this->db->where('user_contact.lastName', $lastName);
+		$this->db->like('user_contact.lastName', $lastName);
 
 		$this->db->like('tag.contactTags', $tag);
 

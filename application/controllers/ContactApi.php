@@ -67,11 +67,11 @@ class ContactApi extends \chriskacerguis\RestServer\RestController
 
 		} else {
 
-			$contactId = $this->uri->segment(3, false);
+//			$contactId = $this->uri->segment(3, false);
 			$tag = $this->input->get('tag');
 			$lastName = $this->input->get('lastName');
 
-			if (isset($tag) && isset($lastName)) {
+			if (!empty($tag) && !empty($lastName)) {
 
 				$tag = urldecode($tag);
 				$lastName = urldecode($lastName);
@@ -85,7 +85,7 @@ class ContactApi extends \chriskacerguis\RestServer\RestController
 				echo json_encode($contactDataByTagNLastName);
 				return $contactDataByTagNLastName;
 
-			} elseif (isset($lastName) && empty($tag)) {
+			} elseif (!empty($lastName) && empty($tag)) {
 
 				$lastName = urldecode($lastName);
 
@@ -96,9 +96,9 @@ class ContactApi extends \chriskacerguis\RestServer\RestController
 				$contactDataByLastName = $this->userContactManager->getContactDetailsByLastName($lastName);
 
 				echo json_encode($contactDataByLastName);
-//				return $contactDataByLastName;
+				return $contactDataByLastName;
 
-			} elseif (isset($tag) && empty($lastName)) {
+			} elseif (!empty($tag) && empty($lastName)) {
 
 				$tag = urldecode($tag);
 
@@ -111,20 +111,7 @@ class ContactApi extends \chriskacerguis\RestServer\RestController
 				echo json_encode($contactDataByTag);
 				return $contactDataByTag;
 
-			} elseif ($contactId) {
-
-				$contactId = urldecode($contactId);
-
-				// load the UserContactManager model
-				$this->load->model('UserContactManager', 'userContactManager');
-
-				// get details of the contact to be edited
-				$editContactData = $this->userContactManager->getSingleContact($contactId);
-
-				echo json_encode($editContactData);
-				return $editContactData;
-
-			} else {
+			}  else {
 
 				// load the UserContactManager model
 				$this->load->model('UserContactManager', 'userContactManager');

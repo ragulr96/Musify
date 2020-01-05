@@ -6,7 +6,8 @@
 }
 
 .modal {
-	height:auto; !important;
+	height: auto;
+!important;
 }
 
 .navbar-nav .nav-link {
@@ -174,6 +175,31 @@
 	color: white;
 }
 
+.getAllUser-btn {
+	background-color: #4BBF73;
+	color: white;
+	/*float: left;*/
+}
+
+.getAllUser-btn:hover {
+	background-color: #01bf00;
+	color: white;
+}
+
+.addContact-btn {
+	background-color: #336679;
+	color: white;
+	/*float: right;*/
+}
+
+.addContact-btn:hover {
+	background-color: #3398bd;
+	color: white;
+}
+
+.contactView-btn {
+	margin-left: 200px;
+}
 
 .searchIcon {
 	text-shadow: 0 0 3px #000;

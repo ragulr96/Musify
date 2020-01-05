@@ -22,12 +22,27 @@
 						   style="width: 330px; margin-top: -46px; margin-left: 345px;">
 					<button class="btn searchUser-btn"><i class="fa fa-search fa-2x"></i></button>
 					<hr>
-					<button class="btn getAllUser-btn"><i class="fa fa-search fa-2x"></i></button>
-					<hr>
+					<div class="contactView-btn">
+						<button type="submit" class="btn getAllUser-btn">View All Contacts</i></button>
+						<button type="submit" class="btn addContact-btn" id="addContact">New Contact</button>
+					</div>
+					<!--					<hr>-->
 
 					<div class="table-responsive">
+						<hr>
+
 						<!--						<div class="contactData">-->
 						<table class="table table-hover table-sm contact-table contactData">
+						</table>
+
+						<table class="table table-hover table-sm noContactData" style="display: none">
+							<tbody>
+							<tr class="table-light">
+								<td>
+									<h6 style="text-align: center;">No matching user contacts found...</h6>
+								</td>
+							</tr>
+							</tbody>
 						</table>
 						<!--						</div>-->
 					</div>
@@ -36,9 +51,9 @@
 
 				<br>
 			</div>
-			<div class="modal-footer">
-				<button type="submit" class="addContact-btn" id="addContact">New Contact</button>
-			</div>
+			<!--			<div class="modal-footer">-->
+			<!--				<button type="submit" class="addContact-btn" id="addContact">New Contact</button>-->
+			<!--			</div>-->
 		</div>
 	</div>
 </div>
@@ -151,6 +166,9 @@
 
 			$("#addContactModel").show();
 			$("#editContactModel").hide();
+			$(".contactData").hide();
+			$(".noContactData").hide();
+
 
 		});
 	});
@@ -204,72 +222,33 @@
 				var firstName = $('#firstName').val();
 				var lastName = $('#lastName').val();
 				var email = $('#email').val();
-				var telephoneNo = $('#firstName').val();
+				var telephoneNo = $('#telephoneNo').val();
 
-				var contact = new ContactModel({
-					firstName: firstName,
-					lastName: lastName,
-					email: email,
-					telephoneNo: telephoneNo
-				});
-				contact.save();
-				contactCollections.add(contact);
-				$("#addContactModel").hide();
-				alert("Contact created successfully!");
+				if (firstName && lastName && email && telephoneNo) {
+
+					var contact = new ContactModel({
+						firstName: firstName,
+						lastName: lastName,
+						email: email,
+						telephoneNo: telephoneNo
+					});
+					contact.save();
+					contactCollections.add(contact);
+					$("#addContactModel").hide();
+					alert("Contact created successfully!");
+				} else {
+					alert("Failed creating Contact... Check the required fields!");
+					$('#firstName').val("");
+					$('#lastName').val("");
+					$('#email').val("");
+					$('#telephoneNo').val();
+				}
 
 			}
 		}
 	);
 
 	var contactAdd = new ContactCreateView();
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// var ContactDisplayView = Backbone.View.extend(
-	// 	{
-	// 		model: contactCollections,
-	//
-	// 		el: $('#contactData'),
-	//
-	// 		initialize: function () {
-	//
-	// 			contactCollections.fetch({async: false});
-	// 			this.render();
-	// 			this.model.on('add', this.render, this);
-	// 		},
-	//
-	// 		render: function () {
-	//
-	// 			var self = this;
-	// 			this.$el.empty();
-	// 			console.log(contactCollections);
-	// 			contactCollections.each(function (c) {
-	//
-	// 				var iteratedContent = `<tr class="table-light">
-	// 						<td style="width: 60px; height: 50px"><img class="" style="width: 40px; height: 40px" src=${c.get("displayPictureUrl")}></td>
-	// 						<td style="width: 80px; height: 50px">${c.get("firstName")}</td>
-	// 						<td style="width: 80px; height: 50px">${c.get("lastName")}</td>
-	// 						<td style="width: 150px; height: 50px">${c.get("email")}</td>
-	// 						<td style="width: 100px; height: 50px">${c.get("telephoneNo")}</td>
-	// 						<td style="width: 80px; height: 50px">
-	// 							<div class="editContact">
-	// 								<button type="submit" class="editContact-btn" id="${c.get("contactId")}"><i class="fa fa-edit fa-2x"></i></button>
-	// 							</div>
-	// 						</td>
-	// 						<td style="width: 80px; height: 50px">
-	// 							<div class="deleteContact">
-	// 								<button type="submit" class="deleteContact-btn" id="${c.get("contactId")}"><i class="fa fa-trash fa-2x"></i></button>
-	// 							</div>
-	// 						</td>
-	// 					</tr>`;
-	// 				self.$el.append(iteratedContent)
-	// 			});
-	//
-	// 		}
-	// 	}
-	// );
-	//
-	// var contactDisplayView = new ContactDisplayView();
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -284,6 +263,7 @@
 				contactCollections.fetch({async: false});
 				this.render();
 				this.model.on('add', this.render, this);
+				this.model.on('change', this.render, this);
 			},
 
 			events: {
@@ -295,8 +275,10 @@
 				var self = this;
 				// self.$el.empty();
 
+				$("#editContactModel").hide();
+				$("#addContactModel").hide();
+				$(".noContactData").hide();
 
-				// var searchContactCollections = new ContactCollection();
 
 				contactCollections.fetch({
 					success: function (response) {
@@ -342,6 +324,7 @@
 							if (response.length > 0) {
 
 								$(".contactData").show();
+								$(".noContactData").hide();
 
 								response.each(function (contactModel) {
 									var childDisplayView = new ChildDisplayView({model: contactModel});
@@ -349,11 +332,21 @@
 								});
 							} else {
 								$(".contactData").hide();
+								$(".noContactData").show();
 							}
 						}
 					});
+
+					$("input#searchContactByName").val("");
+					this.$("#searchContactByTag").val("");
+					$("#editContactModel").hide();
+					$("#addContactModel").hide();
+
+
 				} else {
 					alert("Input either contact tag value or last name to perform search operation");
+					$("#editContactModel").hide();
+					$("#addContactModel").hide();
 				}
 			},
 
@@ -383,9 +376,8 @@
 			contactCollections.each(function (c) {
 
 				var iteratedContent = `<tr class="table-light">
-									<td style="width: 60px; height: 50px"><img class="" style="width: 40px; height: 40px" src=${c.get("displayPictureUrl")}></td>
-									<td style="width: 80px; height: 50px">${c.get("firstName")}</td>
-									<td style="width: 80px; height: 50px">${c.get("lastName")}</td>
+									<td style="width: 60px; height: 50px"><img class="" style="width: 40px; height: 40px; border-radius: 80%;" src=${c.get("displayPictureUrl")}></td>
+									<td style="width: 80px; height: 50px">${c.get("firstName")} ${c.get("lastName")}</td>
 									<td style="width: 150px; height: 50px">${c.get("email")}</td>
 									<td style="width: 100px; height: 50px">${c.get("telephoneNo")}</td>
 									<td style="width: 80px; height: 50px">
@@ -537,24 +529,30 @@
 				var displayPictureUrl = $("input#editDisplayPictureUrl").val();
 				var contactTags = $('#contactTags').val();
 
-				var contact = new ContactModel({
-					contactId: contactId,
-					firstName: firstName,
-					lastName: lastName,
-					email: email,
-					telephoneNo: telephoneNo,
-					contactTags: contactTags,
-					displayPictureUrl: displayPictureUrl
-				});
+				if (firstName && lastName && email && telephoneNo) {
 
-				console.log("update contact : " + JSON.stringify(contact));
+					var contact = new ContactModel({
+						contactId: contactId,
+						firstName: firstName,
+						lastName: lastName,
+						email: email,
+						telephoneNo: telephoneNo,
+						contactTags: contactTags,
+						displayPictureUrl: displayPictureUrl
+					});
 
-				contact.save();
-				contactCollections.add(contact);
+					console.log("update contact : " + JSON.stringify(contact));
 
-				$("#ediContactModel").hide();
-				alert("Contact updated successfully!");
+					contact.save();
+					contactCollections.add(contact);
 
+					$("#editContactModel").hide();
+					$(".contactData").hide();
+
+					alert("Contact updated successfully!");
+				} else {
+					alert("Failed updating contact... Check the required fields!");
+				}
 			}
 		}
 	);
