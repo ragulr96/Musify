@@ -363,9 +363,6 @@
 		}
 	);
 
-	var contactDisplayView = new ContactDisplayView();
-
-
 	var ChildDisplayView = Backbone.View.extend({
 
 		el: $('.contactData'),
@@ -407,6 +404,7 @@
 		}
 	});
 
+	var contactDisplayView = new ContactDisplayView();
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -414,7 +412,7 @@
 		{
 			model: contactCollections,
 
-			el: $('.deleteContact'),
+			el: $('.contactData'),
 
 			initialize: function () {
 
@@ -457,7 +455,7 @@
 		{
 			model: contactCollections,
 
-			el: $('.editContact'),
+			el: $('.contactData'),
 
 			initialize: function () {
 
@@ -477,7 +475,7 @@
 				$("#editContactModel").show();
 				$("#addContactModel").hide();
 
-				// console.log(event);
+				console.log(event);
 
 				var contactId = event.currentTarget.id;
 
