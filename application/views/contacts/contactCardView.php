@@ -8,9 +8,9 @@
 				<div class="form-group searchContact">
 					<label for="exampleSelect1">Search Contact List</label>
 
-					<select class="form-control" id="searchUser" name="searchUser" style="width: 330px;"
+					<select class="form-control" style="width: 330px;"
 							name="searchContactByTag" id="searchContactByTag">
-						<option value="" selected disabled>Search contact by tag</option>
+						<option value="" selected>Search contact by tag</option>
 						<option value="family">Family</option>
 						<option value="friend">Friend</option>
 						<option value="work">Work</option>
@@ -20,18 +20,20 @@
 					<input type="text" class="form-control" name="searchContactByName" id="searchContactByName"
 						   placeholder="Search Contact by Last name"
 						   style="width: 330px; margin-top: -46px; margin-left: 345px;">
-
 					<button class="btn searchUser-btn"><i class="fa fa-search fa-2x"></i></button>
 					<hr>
+					<button class="btn getAllUser-btn"><i class="fa fa-search fa-2x"></i></button>
+					<hr>
 
-				</div>
-
-				<div class="table-responsive">
-					<div id="contactData">
-						<table class="table table-hover table-sm contact-table">
+					<div class="table-responsive">
+						<!--						<div class="contactData">-->
+						<table class="table table-hover table-sm contact-table contactData">
 						</table>
+						<!--						</div>-->
 					</div>
 				</div>
+
+
 				<br>
 			</div>
 			<div class="modal-footer">
@@ -127,7 +129,8 @@
 					</div>
 
 					<div class="updateContactDiv">
-						<button type="submit" class="btn btn-primary btn-block updateContact-btn" id="updateContact" name="updateContact">
+						<button type="submit" class="btn btn-primary btn-block updateContact-btn" id="updateContact"
+								name="updateContact">
 							Update Contact
 						</button>
 					</div>
@@ -153,121 +156,22 @@
 	});
 
 
-	/**
-	 ******************************************************************************************GET
-	 */
-
-	// var Contact = Backbone.Model.extend({
-	// 	urlRoot: "http://localhost/Musify/index.php/contactApi/contact",
-	// 	defaults: {
-	// 		contactId: "",
-	// 		firstName: "",
-	// 		lastName: "",
-	// 		email: "",
-	// 		telephoneNo: "",
-	// 		displayPictureUrl: "",
-	// 	},
-	//
-	// 	idAttribute: 'contactId'
-	// });
-
-	//var Contacts = Backbone.Collection.extend({
-	//	model: Contact,
-	//	url: "<?php //echo site_url(); ?>///contactApi/contact"
-	//});
-	//
-	//var contacts = new Contacts();
-	//contacts.fetch({
-	//	data: {
-	//		lastName: 'a',
-	//		tag: 'family'
-	//	}, success: function (response) {
-	//		console.log(response);
-	//	}
-	//});
-
-	/**
-	 ******************************************************************************************ADD
-	 */
-
-	// var contact = new Contact();
-	//
-	// var contactDetails = {
-	// 	firstName: "Ragul",
-	// 	lastName: 'Ravindira',
-	// 	email: 'unicodeveloper@gmail.com',
-	// 	telephoneNo: 1234
-	// };
-	//
-	// contact.save(contactDetails, {
-	// 	success: function (user) {
-	// 		alert(JSON.stringify(user));
-	// 	}
-	// });
-
-
-	/**
-	 ******************************************************************************************UPDATE
-	 */
-	// var contact1 = new Contact();
-	//
-	// contact1.fetch({
-	// 	data: {
-	// 		lastName: 'a'
-	// 	}, success: function (response) {
-	// 		console.log(response);
-	// 	}
-	// });
-	//
-	// contact1.save({
-	// 	contactId: "121",
-	// 	firstName: "RagullRagul",
-	// 	lastName: 'Ravindira',
-	// 	email: 'unicodeveloper@gmail.com',
-	// 	telephoneNo: "1234",
-	// 	displayPictureUrl: "https://www.facebook.com",
-	// 	contactTags: "family,school,work"
-	// }, {
-	// 	success: function (model) {
-	// 		alert(JSON.stringify(contact1));
-	// 	}
-	// });
-
-	/**
-	 ******************************************************************************************DELETE
-	 */
-
-		// var contact2 = new Contact();
-		//
-		// contact2.fetch({
-		// 	data: {
-		// 		lastName: 'l'
-		// 	}, success: function (response) {
-		// 		console.log(JSON.stringify(response));
-		// 	}
-		// });
-		//
-		// contact2.destroy();
-
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-		// create contact model
+	// create contact model
 	var ContactModel = Backbone.Model.extend({
 
-			urlRoot: "<?php echo site_url(); ?>/contactApi/contact",
-			idAttribute: 'contactId',
+		urlRoot: "<?php echo site_url(); ?>/contactApi/contact",
+		idAttribute: 'contactId',
 
-			defaults: {
-				firstName: '',
-				lastName: '',
-				email: '',
-				telephoneNo: '',
-				displayPictureUrl: '',
-				contactTags: ''
-			},
+		defaults: {
+			firstName: '',
+			lastName: '',
+			email: '',
+			telephoneNo: '',
+			displayPictureUrl: '',
+			contactTags: ''
+		},
 
-		});
+	});
 
 	// create contact collection
 	var ContactCollection = Backbone.Collection.extend(
@@ -311,6 +215,8 @@
 				contact.save();
 				contactCollections.add(contact);
 				$("#addContactModel").hide();
+				alert("Contact created successfully!");
+
 			}
 		}
 	);
@@ -319,11 +225,59 @@
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	// var ContactDisplayView = Backbone.View.extend(
+	// 	{
+	// 		model: contactCollections,
+	//
+	// 		el: $('#contactData'),
+	//
+	// 		initialize: function () {
+	//
+	// 			contactCollections.fetch({async: false});
+	// 			this.render();
+	// 			this.model.on('add', this.render, this);
+	// 		},
+	//
+	// 		render: function () {
+	//
+	// 			var self = this;
+	// 			this.$el.empty();
+	// 			console.log(contactCollections);
+	// 			contactCollections.each(function (c) {
+	//
+	// 				var iteratedContent = `<tr class="table-light">
+	// 						<td style="width: 60px; height: 50px"><img class="" style="width: 40px; height: 40px" src=${c.get("displayPictureUrl")}></td>
+	// 						<td style="width: 80px; height: 50px">${c.get("firstName")}</td>
+	// 						<td style="width: 80px; height: 50px">${c.get("lastName")}</td>
+	// 						<td style="width: 150px; height: 50px">${c.get("email")}</td>
+	// 						<td style="width: 100px; height: 50px">${c.get("telephoneNo")}</td>
+	// 						<td style="width: 80px; height: 50px">
+	// 							<div class="editContact">
+	// 								<button type="submit" class="editContact-btn" id="${c.get("contactId")}"><i class="fa fa-edit fa-2x"></i></button>
+	// 							</div>
+	// 						</td>
+	// 						<td style="width: 80px; height: 50px">
+	// 							<div class="deleteContact">
+	// 								<button type="submit" class="deleteContact-btn" id="${c.get("contactId")}"><i class="fa fa-trash fa-2x"></i></button>
+	// 							</div>
+	// 						</td>
+	// 					</tr>`;
+	// 				self.$el.append(iteratedContent)
+	// 			});
+	//
+	// 		}
+	// 	}
+	// );
+	//
+	// var contactDisplayView = new ContactDisplayView();
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	var ContactDisplayView = Backbone.View.extend(
 		{
 			model: contactCollections,
 
-			el: $('#contactData'),
+			el: $('.searchContact'),
 
 			initialize: function () {
 
@@ -332,38 +286,127 @@
 				this.model.on('add', this.render, this);
 			},
 
-			render: function () {
+			events: {
+				"click .searchUser-btn": 'searchUserContact',
+				"click .getAllUser-btn": 'getAllUserContact'
+			},
+
+			getAllUserContact: function () {
+				var self = this;
+				// self.$el.empty();
+
+
+				// var searchContactCollections = new ContactCollection();
+
+				contactCollections.fetch({
+					success: function (response) {
+						console.log(response);
+
+						if (response.length > 0) {
+
+							$(".contactData").show();
+
+							response.each(function (contactModel) {
+								var childDisplayView = new ChildDisplayView({model: contactModel});
+								self.$el.append(childDisplayView.render());
+							});
+						} else {
+							$(".contactData").hide();
+						}
+					}
+				});
+			},
+
+			searchUserContact: function () {
+
+				var lastName = this.$("#searchContactByName").val();
+				var tag = this.$("#searchContactByTag").val();
+
+				// console.log(lastName);
+				// console.log(tag);
 
 				var self = this;
-				this.$el.empty();
-				console.log(contactCollections);
-				contactCollections.each(function (c) {
+				// self.$el.empty();
 
-					var iteratedContent = `<tr class="table-light">
-							<td style="width: 60px; height: 50px"><img class="" style="width: 40px; height: 40px" src=${c.get("displayPictureUrl")}></td>
-							<td style="width: 80px; height: 50px">${c.get("firstName")}</td>
-							<td style="width: 80px; height: 50px">${c.get("lastName")}</td>
-							<td style="width: 150px; height: 50px">${c.get("email")}</td>
-							<td style="width: 100px; height: 50px">${c.get("telephoneNo")}</td>
-							<td style="width: 80px; height: 50px">
-								<div class="editContact">
-									<button type="submit" class="editContact-btn" id="${c.get("contactId")}"><i class="fa fa-edit fa-2x"></i></button>
-								</div>
-							</td>
-							<td style="width: 80px; height: 50px">
-								<div class="deleteContact">
-									<button type="submit" class="deleteContact-btn" id="${c.get("contactId")}"><i class="fa fa-trash fa-2x"></i></button>
-								</div>
-							</td>
-						</tr>`;
-					self.$el.append(iteratedContent)
-				});
+				if (lastName || tag) {
+					// var searchContactCollections = new ContactCollection();
 
+					contactCollections.fetch({
+						data: {
+							lastName: lastName,
+							tag: tag
+						},
+						success: function (response) {
+							console.log(response);
+
+							if (response.length > 0) {
+
+								$(".contactData").show();
+
+								response.each(function (contactModel) {
+									var childDisplayView = new ChildDisplayView({model: contactModel});
+									self.$el.append(childDisplayView.render());
+								});
+							} else {
+								$(".contactData").hide();
+							}
+						}
+					});
+				} else {
+					alert("Input either contact tag value or last name to perform search operation");
+				}
+			},
+
+			render: function () {
+				return this;
 			}
 		}
 	);
 
 	var contactDisplayView = new ContactDisplayView();
+
+
+	var ChildDisplayView = Backbone.View.extend({
+
+		el: $('.contactData'),
+
+		tagName: "tr",
+
+		className: "table-light",
+
+		initialize: function () {
+		},
+
+		render: function () {
+			this.$el.html(this.model.escape(""));
+
+			var self = this;
+			this.$el.empty();
+
+			contactCollections.each(function (c) {
+
+				var iteratedContent = `<tr class="table-light">
+									<td style="width: 60px; height: 50px"><img class="" style="width: 40px; height: 40px" src=${c.get("displayPictureUrl")}></td>
+									<td style="width: 80px; height: 50px">${c.get("firstName")}</td>
+									<td style="width: 80px; height: 50px">${c.get("lastName")}</td>
+									<td style="width: 150px; height: 50px">${c.get("email")}</td>
+									<td style="width: 100px; height: 50px">${c.get("telephoneNo")}</td>
+									<td style="width: 80px; height: 50px">
+										<div class="editContact">
+											<button type="submit" class="editContact-btn" id="${c.get("contactId")}"><i class="fa fa-edit fa-2x"></i></button>
+										</div>
+									</td>
+									<td style="width: 80px; height: 50px">
+										<div class="deleteContact">
+											<button type="submit" class="deleteContact-btn" id="${c.get("contactId")}"><i class="fa fa-trash fa-2x"></i></button>
+										</div>
+									</td>
+								</tr>`;
+				self.$el.append(iteratedContent);
+			});
+		}
+	});
+
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -400,6 +443,8 @@
 
 				$("#editContactModel").hide();
 				$("#addContactModel").hide();
+
+				alert("Contact deleted successfully!");
 			}
 		}
 	);
@@ -443,17 +488,19 @@
 				var email = con.get('email');
 				var telephoneNo = con.get('telephoneNo');
 				var displayPictureUrl = con.get('displayPictureUrl');
+				var contactTags = con.get('contactTags');
 				var contactId = con.get('contactId');
+
+				console.log(JSON.stringify(con));
 
 				$("input#editFirstName").val(firstName);
 				$("input#editLastName").val(lastName);
 				$("input#editEmail").val(email);
 				$("input#editTelephoneNo").val(telephoneNo);
 				$("input#editDisplayPictureUrl").val(displayPictureUrl);
+				$("input#contactTags").val(contactTags);
 
 				$("input#editContactId").val(contactId);
-
-
 			}
 		}
 	);
@@ -508,6 +555,8 @@
 				contactCollections.add(contact);
 
 				$("#ediContactModel").hide();
+				alert("Contact updated successfully!");
+
 			}
 		}
 	);
