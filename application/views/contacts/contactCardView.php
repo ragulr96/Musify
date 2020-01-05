@@ -69,22 +69,22 @@
 					<div class="form-group row">
 						<div class="col-md-5">
 							<input type="text" class="form-control" name="firstName" id="firstName"
-								   placeholder="First name">
+								   placeholder="First name *">
 						</div>
 
 						<div class="col-md-7">
 							<input type="text" class="form-control" name="lastName" id='lastName'
-								   placeholder="Last name">
+								   placeholder="Last name *">
 						</div>
 					</div>
 
 					<div class="form-group">
-						<input type="text" class="form-control" name="email" id="email" placeholder="Email">
+						<input type="text" class="form-control" name="email" id="email" placeholder="Email *">
 					</div>
 
 					<div class="form-group">
 						<input type="text" class="form-control" name="telephoneNo" id="telephoneNo"
-							   placeholder="Telephone Number">
+							   placeholder="Telephone Number *">
 					</div>
 
 					<button type="submit" class="btn btn-primary btn-block" id="createContact" name="createContact">
@@ -107,21 +107,25 @@
 				<div class="modal-body">
 					<div class="form-group row">
 						<div class="col-md-5">
+							<label>First Name*</label>
 							<input type="text" class="form-control" name="editFirstName" id="editFirstName"
 								   placeholder="First name">
 						</div>
 
 						<div class="col-md-7">
+							<label>Last Name*</label>
 							<input type="text" class="form-control" name="editLastName" id='editLastName'
 								   placeholder="Last name">
 						</div>
 					</div>
 
 					<div class="form-group">
+						<label>Email*</label>
 						<input type="text" class="form-control" name="editEmail" id="editEmail" placeholder="Email">
 					</div>
 
 					<div class="form-group">
+						<label>Telephone No*</label>
 						<input type="text" class="form-control" name="editTelephoneNo" id="editTelephoneNo"
 							   placeholder="Telephone Number">
 						<input type="hidden" class="form-control" name="editContactId" id="editContactId">
@@ -139,6 +143,7 @@
 					</div>
 
 					<div class="form-group">
+						<label>Display Picture Url</label>
 						<input type="text" class="form-control" name="editDisplayPictureUrl" id="editDisplayPictureUrl"
 							   placeholder="Display Picture Url">
 					</div>
