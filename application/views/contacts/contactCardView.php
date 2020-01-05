@@ -299,6 +299,8 @@
 							});
 						} else {
 							$(".contactData").hide();
+							$(".noContactData").show();
+
 						}
 					}
 				});
