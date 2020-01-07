@@ -17,7 +17,7 @@
 						<option value="Electronic">Electronic</option>
 						<option value="Techno">Techno</option>
 					</select>
-					<button class="btn searchUser-btn"><i class="fa fa-search fa-2x"></i></button>
+					<button class="btn searchUserGenre-btn"><i class="fa fa-search fa-2x"></i></button>
 					<hr>
 
 				</div>

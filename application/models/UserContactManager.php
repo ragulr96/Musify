@@ -14,6 +14,14 @@ class UserContactManager extends CI_Model
 		$this->load->database();
 	}
 
+	/** update contact model
+	 * @param $firstName
+	 * @param $lastName
+	 * @param $email
+	 * @param $telephoneNo
+	 * @param $displayPictureUrl
+	 * @param $userId
+	 */
 	public function updateContactData($firstName, $lastName, $email, $telephoneNo, $displayPictureUrl, $userId)
 	{
 		$this->firstName = $firstName;
@@ -24,10 +32,23 @@ class UserContactManager extends CI_Model
 		$this->userId = $userId;
 	}
 
+	/**
+	 * function to get all contact details
+	 * @param $userId
+	 * @return mixed
+	 */
 	public function getContactDetails($userId)
 	{
-		// active record query to get a user's contact details
-		$getUserContactDetailsQuery = $this->db->get_where('user_contact', array('userId' => $userId));
+
+		// active record query to get contact and tag data
+		$this->db->select('user_contact.contactId, user_contact.userId, user_contact.firstName, user_contact.lastName, user_contact.email, user_contact.telephoneNo, user_contact.displayPictureUrl, tag.contactId, tag.contactTags');
+		$this->db->from('user_contact');
+		$this->db->where('user_contact.userId',$userId);
+
+		// join tag and user_contact table
+		$this->db->join('tag', 'tag.contactId = user_contact.contactId');
+
+		$getUserContactDetailsQuery = $this->db->get();
 
 		if ($getUserContactDetailsQuery->num_rows() > 0) {
 
@@ -38,6 +59,16 @@ class UserContactManager extends CI_Model
 		}
 	}
 
+	/**
+	 * function to add contact details
+	 * @param $firstName
+	 * @param $lastName
+	 * @param $email
+	 * @param $telephoneNo
+	 * @param $displayPictureUrl
+	 * @param $userId
+	 * @return mixed
+	 */
 	public function addContactDetails($firstName, $lastName, $email, $telephoneNo, $displayPictureUrl, $userId)
 	{
 		// create new UserContact object
@@ -61,7 +92,7 @@ class UserContactManager extends CI_Model
 			$tagObject = new TagModel();
 
 			// set contact tags to null on contact creation
-			$tagObject->setContactTagsOnReg($contactId, NULL);
+			$tagObject->setContactTagsOnReg($contactId, '-');
 
 			// // active record query to insert tags
 			$addTagQuery = $this->db->insert('tag', $tagObject);
@@ -70,6 +101,10 @@ class UserContactManager extends CI_Model
 		return $addContactQuery;
 	}
 
+	/**
+	 * function to delete a contact
+	 * @param $contactId
+	 */
 	public function deleteContact($contactId)
 	{
 		// active record query to remove a contact card
@@ -78,6 +113,11 @@ class UserContactManager extends CI_Model
 
 	}
 
+	/**
+	 * function to get a single contact
+	 * @param $contactId
+	 * @return mixed
+	 */
 	public function getSingleContact($contactId)
 	{
 		$getUserContactDetailsQuery = $this->db->get_where('user_contact', array('contactId' => $contactId));
@@ -91,15 +131,21 @@ class UserContactManager extends CI_Model
 			}
 			return $contacts;
 		}
-
 	}
 
-	public function getContactDetailsByTag($tag)
+	/**
+	 * function to get search contact details by tag
+	 * @param $tag
+	 * @param $userId
+	 * @return mixed
+	 */
+	public function getContactDetailsByTag($tag, $userId)
 	{
-
 		// active record query to get contact and tag data
 		$this->db->select('user_contact.contactId, user_contact.userId, user_contact.firstName, user_contact.lastName, user_contact.email, user_contact.telephoneNo, user_contact.displayPictureUrl, tag.contactId, tag.contactTags');
 		$this->db->from('user_contact');
+
+		$this->db->where('user_contact.userId', $userId);
 
 		// join tag and user_contact table
 		$this->db->join('tag', 'tag.contactId = user_contact.contactId');
@@ -118,12 +164,20 @@ class UserContactManager extends CI_Model
 		}
 	}
 
-	public function getContactDetailsByLastName($lastName)
+	/**
+	 * function to get search contact details by lastName
+	 * @param $lastName
+	 * @param $userId
+	 * @return mixed
+	 */
+	public function getContactDetailsByLastName($lastName, $userId)
 	{
 		$arr = array();
 		// active record query to get contact and tag data
 		$this->db->select('user_contact.contactId, user_contact.userId, user_contact.firstName, user_contact.lastName, user_contact.email, user_contact.telephoneNo, user_contact.displayPictureUrl, tag.contactId, tag.contactTags');
 		$this->db->from('user_contact');
+
+		$this->db->where('user_contact.userId', $userId);
 
 		// join tag and user_contact table
 		$this->db->join('tag', 'tag.contactId = user_contact.contactId');
@@ -142,12 +196,20 @@ class UserContactManager extends CI_Model
 		}
 	}
 
-	public function getContactDetailsByTagNLastName($tag, $lastName)
+	/**
+	 * function to get search contact details by lastName and tag
+	 * @param $tag
+	 * @param $lastName
+	 * @param $userId
+	 * @return mixed
+	 */
+	public function getContactDetailsByTagNLastName($tag, $lastName, $userId)
 	{
 
 		// active record query to get contact and tag data
 		$this->db->select('user_contact.contactId, user_contact.userId, user_contact.firstName, user_contact.lastName, user_contact.email, user_contact.telephoneNo, user_contact.displayPictureUrl, tag.contactId, tag.contactTags');
 		$this->db->from('user_contact');
+		$this->db->where('user_contact.userId', $userId);
 
 		// join tag and user_contact table
 		$this->db->join('tag', 'tag.contactId = user_contact.contactId');
@@ -168,6 +230,16 @@ class UserContactManager extends CI_Model
 		}
 	}
 
+	/**
+	 * function to add contact details
+	 * @param $contactId
+	 * @param $firstName
+	 * @param $lastName
+	 * @param $email
+	 * @param $telephoneNo
+	 * @param $displayPictureUrl
+	 * @return mixed
+	 */
 	public function updateContactDetails($contactId, $firstName, $lastName, $email, $telephoneNo, $displayPictureUrl)
 	{
 		$data = array(
@@ -184,6 +256,11 @@ class UserContactManager extends CI_Model
 
 	}
 
+	/**
+	 * function to get contact details
+	 * @param $contactId
+	 * @return mixed
+	 */
 	public function getContactTagDetails($contactId)
 	{
 		// active record query to get tag detail
@@ -200,6 +277,12 @@ class UserContactManager extends CI_Model
 		}
 	}
 
+	/**
+	 * function to update tag details
+	 * @param $contactTags
+	 * @param $contactId
+	 * @return mixed
+	 */
 	public function updateTagDetails($contactTags, $contactId)
 	{
 		// get tag details

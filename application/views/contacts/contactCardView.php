@@ -1,41 +1,43 @@
 <div id="myModal" class="modal d-block position-relative">
 	<div class="modal-dialog">
-		<div class="modal-content contact-content" style="width: 750px; margin-left: -125px;">
+		<div class="modal-content contact-content" style="width: 930px;; margin-left: -212px;">
 			<div class="modal-header contact-header">
 				<h3>Contacts</h3>
 			</div>
 			<div class="modal-body">
 				<div class="form-group searchContact">
 					<label for="exampleSelect1">Search Contact List</label>
-
-					<select class="form-control" style="width: 330px;"
-							name="searchContactByTag" id="searchContactByTag">
-						<option value="" selected>Search contact by tag</option>
-						<option value="family">Family</option>
-						<option value="friend">Friend</option>
-						<option value="work">Work</option>
-						<option value="school">School</option>
-					</select>
-
-					<input type="text" class="form-control" name="searchContactByName" id="searchContactByName"
-						   placeholder="Search Contact by Last name"
-						   style="width: 330px; margin-top: -46px; margin-left: 345px;">
-					<button class="btn searchUser-btn"><i class="fa fa-search fa-2x"></i></button>
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<select class="form-control" style="width: 330px; margin-left: 50px;"
+										name="searchContactByTag" id="searchContactByTag">
+									<option value="" selected>Search contact by tag</option>
+									<option value="family">Family</option>
+									<option value="friend">Friend</option>
+									<option value="work">Work</option>
+									<option value="school">School</option>
+								</select>
+							</div>
+							<div class="col d-flex justify-content-center" style="margin-left: -90px;">
+								<input type="text" class="form-control" name="searchContactByName"
+									   id="searchContactByName"
+									   placeholder="Search Contact by Last name"
+									   class="w-100">
+								<button class="btn searchUser-btn"><i class="fa fa-search fa-2x"></i></button>
+							</div>
+						</div>
+					</div>
 					<hr>
 					<div class="contactView-btn">
 						<button type="submit" class="btn getAllUser-btn">View All Contacts</i></button>
 						<button type="submit" class="btn addContact-btn" id="addContact">New Contact</button>
 					</div>
-					<!--					<hr>-->
-
 					<div class="table-responsive">
 						<hr>
-
-						<!--						<div class="contactData">-->
-						<table class="table table-hover table-sm contact-table contactData">
+						<table class="table table-hover table-sm contact-table contactData" style="display: none;">
 						</table>
-
-						<table class="table table-hover table-sm noContactData" style="display: none">
+						<table class="table table-hover table-sm noContactData" style="display: none;">
 							<tbody>
 							<tr class="table-light">
 								<td>
@@ -44,16 +46,10 @@
 							</tr>
 							</tbody>
 						</table>
-						<!--						</div>-->
 					</div>
 				</div>
-
-
 				<br>
 			</div>
-			<!--			<div class="modal-footer">-->
-			<!--				<button type="submit" class="addContact-btn" id="addContact">New Contact</button>-->
-			<!--			</div>-->
 		</div>
 	</div>
 </div>
@@ -168,16 +164,18 @@
 	$(document).ready(function () {
 		$("#addContact").click(function (event) {
 			event.preventDefault();
-
 			$("#addContactModel").show();
 			$("#editContactModel").hide();
 			$(".contactData").hide();
 			$(".noContactData").hide();
-
-
 		});
 	});
 
+
+	/**
+	 *
+	 * @type {jQuery|void|*}
+	 */
 
 	// create contact model
 	var ContactModel = Backbone.Model.extend({
@@ -255,7 +253,10 @@
 
 	var contactAdd = new ContactCreateView();
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 *
+	 * @type {jQuery|void|*}
+	 */
 
 	var ContactDisplayView = Backbone.View.extend(
 		{
@@ -363,6 +364,10 @@
 		}
 	);
 
+	/**
+	 *
+	 * @type {jQuery|void|*}
+	 */
 	var ChildDisplayView = Backbone.View.extend({
 
 		el: $('.contactData'),
@@ -382,17 +387,19 @@
 
 			contactCollections.each(function (c) {
 
-				var iteratedContent = `<tr class="table-light">
-									<td style="width: 60px; height: 50px"><img class="" style="width: 40px; height: 40px; border-radius: 80%;" src=${c.get("displayPictureUrl")}></td>
-									<td style="width: 80px; height: 50px">${c.get("firstName")} ${c.get("lastName")}</td>
-									<td style="width: 150px; height: 50px">${c.get("email")}</td>
-									<td style="width: 100px; height: 50px">${c.get("telephoneNo")}</td>
-									<td style="width: 80px; height: 50px">
+				var iteratedContent = `
+								<tr class="table-light">
+									<td style="width: 10%; height: 50px"><img class="" style="width: 40px; height: 40px; border-radius: 80%;" src=${c.get("displayPictureUrl")}></td>
+									<td style="width: 20%; height: 50px">${c.get("firstName")} ${c.get("lastName")}</td>
+									<td style="width: 20%; height: 50px">${c.get("email")}</td>
+									<td style="width: 10%; height: 50px">${c.get("telephoneNo")}</td>
+									<td style="width: 20%; height: 50px">${c.get("contactTags")}</td>
+									<td style="width: 10%; height: 50px">
 										<div class="editContact">
 											<button type="submit" class="editContact-btn" id="${c.get("contactId")}"><i class="fa fa-edit fa-2x"></i></button>
 										</div>
 									</td>
-									<td style="width: 80px; height: 50px">
+									<td style="width: 10%; height: 50px">
 										<div class="deleteContact">
 											<button type="submit" class="deleteContact-btn" id="${c.get("contactId")}"><i class="fa fa-trash fa-2x"></i></button>
 										</div>
@@ -405,8 +412,10 @@
 
 	var contactDisplayView = new ContactDisplayView();
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	/**
+	 *
+	 * @type {jQuery|void|*}
+	 */
 	var DeleteContactDisplayView = Backbone.View.extend(
 		{
 			model: contactCollections,
@@ -448,8 +457,10 @@
 
 	var contactDelete = new DeleteContactDisplayView();
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	/**
+	 *
+	 * @type {jQuery|void|*}
+	 */
 	var EditContactDisplayView = Backbone.View.extend(
 		{
 			model: contactCollections,
@@ -504,8 +515,10 @@
 
 	var contactEdit = new EditContactDisplayView();
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	/**
+	 *
+	 * @type {jQuery|void|*}
+	 */
 	var UpdateContactDisplayView = Backbone.View.extend(
 		{
 			model: contactCollections,

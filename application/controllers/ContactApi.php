@@ -11,36 +11,11 @@ class ContactApi extends \chriskacerguis\RestServer\RestController
 		parent::__construct();
 	}
 
-//	/**
-//	 * function to load the initial page
-//	 */
-//	public function index_get()
-//	{
-//
-//		// checks if a user is logged in
-//		if (!$this->session->userdata('loginStatus')) {
-//			$this->session->set_flashdata('login_required', 'Please Login first!');
-//			redirect('users/signin');
-//		}
-//
-//		// get contact data
-//		$contactData = $this->contact_get();
-//
-//		$bagOfDataVal = array(
-//			'listOfContacts' => $contactData
-//		);
-//
-//		$this->load->view('templates/header');
-//		$this->load->view('contacts/contactCard', $bagOfDataVal);
-//		$this->load->view('templates/footer');
-//	}
-
 	/**
 	 * function to load the initial page
 	 */
 	public function index_get()
 	{
-
 		// checks if a user is logged in
 		if (!$this->session->userdata('loginStatus')) {
 			$this->session->set_flashdata('login_required', 'Please Login first!');
@@ -59,7 +34,6 @@ class ContactApi extends \chriskacerguis\RestServer\RestController
 	 */
 	public function contact_get()
 	{
-
 		// checks if a user is logged in
 		if (!$this->session->userdata('loginStatus')) {
 			$this->session->set_flashdata('login_required', 'Please Login first!');
@@ -67,7 +41,6 @@ class ContactApi extends \chriskacerguis\RestServer\RestController
 
 		} else {
 
-//			$contactId = $this->uri->segment(3, false);
 			$tag = $this->input->get('tag');
 			$lastName = $this->input->get('lastName');
 
@@ -80,7 +53,7 @@ class ContactApi extends \chriskacerguis\RestServer\RestController
 				$this->load->model('UserContactManager', 'userContactManager');
 
 				// get contact details by lastName and tag
-				$contactDataByTagNLastName = $this->userContactManager->getContactDetailsByTagNLastName($tag, $lastName);
+				$contactDataByTagNLastName = $this->userContactManager->getContactDetailsByTagNLastName($tag, $lastName, $this->session->userData('userId'));
 
 				echo json_encode($contactDataByTagNLastName);
 				return $contactDataByTagNLastName;
@@ -93,7 +66,7 @@ class ContactApi extends \chriskacerguis\RestServer\RestController
 				$this->load->model('UserContactManager', 'userContactManager');
 
 				// get contact details by lastName
-				$contactDataByLastName = $this->userContactManager->getContactDetailsByLastName($lastName);
+				$contactDataByLastName = $this->userContactManager->getContactDetailsByLastName($lastName, $this->session->userData('userId'));
 
 				echo json_encode($contactDataByLastName);
 				return $contactDataByLastName;
@@ -106,7 +79,7 @@ class ContactApi extends \chriskacerguis\RestServer\RestController
 				$this->load->model('UserContactManager', 'userContactManager');
 
 				// get contact details by tag
-				$contactDataByTag = $this->userContactManager->getContactDetailsByTag($tag);
+				$contactDataByTag = $this->userContactManager->getContactDetailsByTag($tag, $this->session->userData('userId'));
 
 				echo json_encode($contactDataByTag);
 				return $contactDataByTag;
@@ -150,9 +123,6 @@ class ContactApi extends \chriskacerguis\RestServer\RestController
 	 */
 	public function contact_put()
 	{
-//		$contactId = $this->uri->segment(3, false);
-//		$contactId = urldecode($contactId);
-
 		$firstName = $this->put('firstName');
 		$lastName = $this->put('lastName');
 		$email = $this->put('email');

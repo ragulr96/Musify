@@ -68,8 +68,8 @@
 }
 
 .contact-content {
-	width: 750px;
-	margin-left: -125px;
+	/*width: 1750px;*/
+	/*margin-left: -125px;*/
 }
 
 .addPost-content {
@@ -122,6 +122,12 @@
 }
 
 .searchUser-btn {
+	/*float: right;*/
+	/*margin-top: -47px;*/
+	/*margin-right: -22px;*/
+}
+
+.searchUserGenre-btn {
 	float: right;
 	margin-top: -47px;
 	margin-right: -22px;
@@ -198,7 +204,7 @@
 }
 
 .contactView-btn {
-	margin-left: 200px;
+	margin-left: 270px;
 }
 
 .searchIcon {
