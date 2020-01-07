@@ -239,12 +239,16 @@
 					contactCollections.add(contact);
 					$("#addContactModel").hide();
 					alert("Contact created successfully!");
+					$('#firstName').val("");
+					$('#lastName').val("");
+					$('#email').val("");
+					$('#telephoneNo').val("");
 				} else {
 					alert("Failed creating Contact... Check the required fields!");
 					$('#firstName').val("");
 					$('#lastName').val("");
 					$('#email').val("");
-					$('#telephoneNo').val();
+					$('#telephoneNo').val("");
 				}
 
 			}
